@@ -14,7 +14,7 @@
     <name>pong</name>
     <description>pong</description>
     <properties>
-        <java.version>8</java.version>
+        <java.version>11</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -88,14 +88,14 @@
                     <execution>
                         <goals>
                             <goal>compile</goal>
+                            <goal>compileTests</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
-                    <targetBytecode>1.8</targetBytecode>
                     <testSources>
                         <testSource>
-                            <directory>src/test/java</directory>
+                            <directory>src/test/groovy</directory>
                             <includes>
                                 <include>**/*.groovy</include>
                             </includes>
