@@ -1,4 +1,4 @@
-package com.example.ping.config;
+package com.example.ping.push;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

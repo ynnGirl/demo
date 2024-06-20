@@ -1,36 +1,27 @@
-import com.example.ping.service.MessageSendService
+package com.example.ping.push
+
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Answers
-import org.mockito.ArgumentCaptor
-import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.junit.jupiter.SpringExtension
-
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Flux
 import spock.lang.Specification
 
 import java.util.logging.Logger
 
+@SpringBootTest
+class MessageSendServerTest extends Specification {
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(classes =MessageSendServiceImpl.class, webEnvironment = SpringBootTest.WebEnvironment.NONE) // 指定被测试类和web环境
-//@SpringBootTest
-class MessageSendServiceImpl extends Specification {
-
-    @MockBean
-    private MessageSendService messageSendService
-//    @MockBean
-//    private WebClient.Builder webClientBuilder;
-    @MockBean(answer = Answers.RETURNS_DEEP_STUBS)
-    private Logger loggerMock
+    @Autowired
+    private MessageSendServer messageSendServer
     @MockBean
     private WebClient webClient
 
     def setup() {
-        // 使用 MockBean 的 WebClient.Builder 来创建一个模拟的 WebClient
+        // 创建一个模拟的 WebClient
         webClient =Mock(WebClient)
     }
 
@@ -47,7 +38,7 @@ class MessageSendServiceImpl extends Specification {
         mockResponseSpec.bodyToMono(String) >> responseBody
 
         when:
-        messageSendService.pushMessages()
+        messageSendServer.pushMessages()
 
         then:
         print("world")
@@ -71,7 +62,7 @@ class MessageSendServiceImpl extends Specification {
         mockRequestHeadersUriSpec.retrieve() >> mockResponseSpec
         mockResponseSpec.bodyToMono(String) >> responseBody
         when:
-        messageSendService.pushMessages()
+        messageSendServer.pushMessages()
 
         then:
         print("429")
@@ -91,7 +82,7 @@ class MessageSendServiceImpl extends Specification {
         mockRequestHeadersUriSpec.retrieve() >> mockResponseSpec
         mockResponseSpec.bodyToMono(String) >> responseBody
         when:
-        messageSendService.pushMessages()
+        messageSendServer.pushMessages()
 
         then:
         print("Request failed")

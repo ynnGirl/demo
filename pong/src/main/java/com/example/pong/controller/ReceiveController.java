@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author ynn
  * @date 2024/6/5
@@ -22,12 +22,19 @@ public class ReceiveController {
     private final RateLimiter rateLimiter = RateLimiter.create(1.0);
 
     @PostMapping(value = "/receive")
-    public Flux<ResponseEntity<String>> receive(@RequestBody Flux<String> message) {
+    public Mono<ResponseEntity<String>> receive(@RequestBody String message) {
         if(rateLimiter.tryAcquire()){
-            logger.info("收到ping服务端的消息====={}",message);
-            return Flux.just(ResponseEntity.ok().body("world"));
+            logger.info("收到ping服务端的消息====={}" ,message);
+            //休眠使文件锁不释放，模拟最多并发两个进程
+            try {
+                Thread.sleep(3000);
+            }catch (Exception e){
+                logger.error(e.getMessage());
+            }
+
+            return Mono.just(ResponseEntity.ok().body("world"));
         }else {
-            return Flux.just(ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body("Too Many Requests"));
+            return Mono.just(ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body("Too Many Requests"));
         }
     }
 
