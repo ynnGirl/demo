@@ -14,7 +14,7 @@
     <name>ping</name>
     <description>ping</description>
     <properties>
-        <java.version>8</java.version>
+        <java.version>11</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -28,7 +28,8 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Groovy Test Framework - Spock -->
+
+        <!--        &lt;!&ndash; Groovy Test Framework - Spock &ndash;&gt;-->
         <dependency>
             <groupId>org.apache.groovy</groupId>
             <artifactId>groovy-all</artifactId>
@@ -53,6 +54,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>30.1-jre</version>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-test</artifactId>
+            <scope>test</scope>
+        </dependency>
         <!-- Logback -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -74,7 +85,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-
             <!-- 其他插件配置 -->
             <plugin>
                 <groupId>org.codehaus.gmavenplus</groupId>
@@ -84,6 +94,7 @@
                     <execution>
                         <goals>
                             <goal>compile</goal>
+                            <goal>compileTests</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -168,7 +179,6 @@
                 </executions>
 
             </plugin>
-
 
         </plugins>
     </build>
